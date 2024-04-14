@@ -1,6 +1,7 @@
 from pixel import Pixel
 import TextEditor
 from PIL import Image
+import math
 
 def getBlocks(image, textLength):
     imageMap = image.load()
@@ -196,10 +197,10 @@ def decode(image, seed, limitBrightDiff, mask):
         sortedBlock = sortBlock(maskedBlock)
         groupedBlock = groupBlock(sortedBlock, limitBrightDiff)
 
-
+        """
         for pixel in groupedBlock:
             print(pixel.getXPos(), pixel.getYPos(), pixel.getBrightness(), pixel.getBrightnessGroup(), pixel.getMaskGroup())
-
+        """
         
         # DECODE
 
