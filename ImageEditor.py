@@ -83,10 +83,11 @@ def encode(image, text, limitBrightDiff, mask, encodedSRC):
         sortedBlock = sortBlock(maskedBlock)
         groupedBlock = groupBlock(sortedBlock, limitBrightDiff)
 
-
+        """
         for pixel in groupedBlock:
             print(pixel.getXPos(), pixel.getYPos(), pixel.getBrightness(), pixel.getBrightnessGroup(), pixel.getMaskGroup())
-
+        """
+        print("block: " + str(index + 1))
         
         # ENCODE
 
@@ -201,13 +202,15 @@ def decode(image, seed, limitBrightDiff, mask):
         for pixel in groupedBlock:
             print(pixel.getXPos(), pixel.getYPos(), pixel.getBrightness(), pixel.getBrightnessGroup(), pixel.getMaskGroup())
         """
-        
+        print("block: " + str(index + 1))
+
         # DECODE
 
         lens, ns = getLensAndNs(groupedBlock)
         if (ns[0] == 0 and ns[1] == 0):
             len2A = lens[2] / ns[2]
             len2B = lens[3] / ns[3]
+            print(len2A, len2B)
             if (len2A > len2B):
                 binaryText += "1"
             else:
@@ -215,6 +218,7 @@ def decode(image, seed, limitBrightDiff, mask):
         elif (ns[2] == 0 and ns[3] == 0):
             len1A = lens[0] / ns[0]
             len1B = lens[1] / ns[1]
+            print(len1A, len1B)
             if (len1A > len1B):
                 binaryText += "1"
             else:
@@ -224,12 +228,13 @@ def decode(image, seed, limitBrightDiff, mask):
             len1B = lens[1] / ns[1]
             len2A = lens[2] / ns[2]
             len2B = lens[3] / ns[3]
+            print(len1A, len1B, len2A, len2B)
             if (len1A > len1B and len2A > len2B):
                 binaryText += "1"
             elif (len1A < len1B and len2A < len2B):
                 binaryText += "0"
             else:
-                if ((ns[0] + ns[1]) * (len1A - len1B) + (ns[2] + ns[3]) * (len2A - len2B) > 0):
+                if (abs((ns[0] + ns[1]) * (len1A - len1B)) > abs((ns[2] + ns[3]) * (len2A - len2B))):
                     binaryText += "1"
                 else:
                     binaryText += "0"
