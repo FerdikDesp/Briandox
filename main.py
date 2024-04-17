@@ -6,7 +6,7 @@ import plot
 
 src = "onemorenature.jpg"
 encodedSRC = "encoded.png"
-text = "Rot ebal etogo fucking code"
+text = "textABCDE code"
 limitBrightDiff = 0.1
 
 mask = list('AB'*32)

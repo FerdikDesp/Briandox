@@ -203,9 +203,9 @@ def decode(image, seed, limitBrightDiff, mask):
             print(pixel.getXPos(), pixel.getYPos(), pixel.getBrightness(), pixel.getBrightnessGroup(), pixel.getMaskGroup())
         """
         print("block: " + str(index + 1))
-
+        
         # DECODE
-
+        
         lens, ns = getLensAndNs(groupedBlock)
         if (ns[0] == 0 and ns[1] == 0):
             len2A = lens[2] / ns[2]
@@ -234,9 +234,16 @@ def decode(image, seed, limitBrightDiff, mask):
             elif (len1A < len1B and len2A < len2B):
                 binaryText += "0"
             else:
-                if (abs((ns[0] + ns[1]) * (len1A - len1B)) > abs((ns[2] + ns[3]) * (len2A - len2B))):
-                    binaryText += "1"
+                delta_l = max((len1A - len1B), (len2A - len2B))
+                if (delta_l == len1A - len1B):
+                    if (len1A < len1B):
+                        binaryText += "1"
+                    else:
+                        binaryText += "0"
                 else:
-                    binaryText += "0"
+                    if (len2A < len2B):
+                        binaryText += "1"
+                    else:
+                        binaryText += "0"
     
     return binaryText
